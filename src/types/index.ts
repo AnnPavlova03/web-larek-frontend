@@ -4,33 +4,50 @@ export interface ICard {
 	image: string;
 	title: string;
 	category: string;
-	price: number;
+	price: string | number;
 }
 
 export interface IPayment {
-	address: string | number;
-	buttonPay: boolean; //кнопка онлайн или при получении
+	address: string;
+	button: string;
 }
 
 export interface IContacts {
+	phone: string;
 	email: string;
-	phone: number;
 }
 
 export interface ICardList {
-	cards: ICard[]; // получаем массив карточек и выбираем по превью одну на которую нажмем и отобразим в попапе который открывается при клике по карточке
+	catalog: ICard[]; // получаем массив карточек и выбираем по превью одну на которую нажмем и отобразим в попапе который открывается при клике по карточке
 	preview: string | null; // здесь получаем либо айди карточки либо ничего, если в получении айди нет необходимости
-	getCard(id: string): ICard;
+	// getCard(id: string): ICard;
+	setCatalog(items: ICard[]):void
+	setPreview(item: ICard):void
 }
 
 export interface IBasket {
 	count: number;
-	toggleOrderedCard(id: string, isInclude: boolean): TProduct; // не дает добавить одинаковые товары
+	listProduct: TProduct[]
+	product: string[] 
+	addProduct(items: TProduct): TProduct;
+	toggleOrderedCard(id: string): TProduct; // не дает добавить одинаковые товары
 	getTotal(): number; // получаем сумму заказа
-	deleteProduct(Id: string, payload: Function | null): void; // очищаем товары в корхине
-	updateBasket(card: ICard, payload: Function | null): void; //обновляем состояние корзины после удаления или добавления товара
-	checkStateButton(isInclude: boolean): void; //если добавлена бесценная карточка, блокируем кнопку
+	deleteProduct(Id: string): void; // очищаем товары в корхине
+	setIndex():void;
+	clearBasket():void
 }
-export type TProduct = Pick<ICard, 'id' | 'title' | 'price'>; // Товар в корзине
+export type TProduct = Pick<ICard, 'id' | 'title' | 'price'> & {
+	index: number;
+}; // Товар в корзине
 export type TForm = IContacts & IPayment; // формы
 export type TFormErrors = Partial<Record<keyof TForm, string>>; // тип для хранения ошибок формы
+
+export interface IFormState {
+	order:TForm
+	button: boolean 
+	formErrors: TFormErrors 
+	setFormOrder(field: TForm, value: string): void;
+	setFormContacts(field: TForm, value: string): void;
+	validateFormOrder(error: string): void;
+	validateFormContacts(error: string): void;
+}

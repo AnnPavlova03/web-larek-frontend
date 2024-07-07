@@ -1,0 +1,72 @@
+import { ICard, ICardList } from '../../types';
+import { ensureElement } from '../../utils/utils';
+import { Component } from '../base/Component';
+import { IEvents } from '../base/events';
+
+interface ICardActions {
+	onClick: (event: MouseEvent) => void;
+}
+export class Card extends Component<ICard> {
+	protected _description?: HTMLElement;
+	protected _image?: HTMLImageElement;
+	protected _title: HTMLElement;
+	protected _category?: HTMLElement;
+	protected _price: HTMLElement;
+	protected _button?: HTMLButtonElement;
+
+	constructor(
+		protected containerName: string,
+		container: HTMLElement,
+		events?: ICardActions
+	) {
+		super(container);
+		this._description = container.querySelector(
+			'.card__text'
+		) as HTMLElement | null;
+		this._image = container.querySelector(
+			'.card__image'
+		) as HTMLImageElement | null;
+		this._title = ensureElement<HTMLElement>(
+			`.${containerName}__title`,
+			container
+		);
+		this._category = container.querySelector(
+			'.card__category'
+		) as HTMLElement | null;
+		this._price = ensureElement<HTMLElement>(
+			`.${containerName}__price`,
+			container
+		);
+		this._button = container.querySelector(
+			'.button'
+		) as HTMLButtonElement | null;
+
+		if (events?.onClick) {
+			if (this._button) {
+				this._button.addEventListener('click', events.onClick);
+			} else {
+				container.addEventListener('click', events.onClick);
+			}
+		}
+	}
+
+	set title(value: string) {
+		this.setText(this._title, value);
+	}
+
+	set description(value: string) {
+		this.setText(this._description, value);
+	}
+
+	set category(value: string) {
+		this.setText(this._category, value);
+	}
+
+	set price(value: string) {
+		this.setText(this._price, value);
+	}
+
+	set image(value: string) {
+		this.setImage(this._image, value, this.title);
+	}
+}
