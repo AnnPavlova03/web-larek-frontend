@@ -5,7 +5,7 @@ import './components/view/Page';
 import { EventEmitter } from './components/base/events';
 import { Card } from './components/view/Card';
 import { Page } from './components/view/Page';
-import { AppApi } from './components/base/api';
+import { Api, AppApi } from './components/base/api';
 import { API_URL, CDN_URL } from './utils/constants';
 import {
 	ICard,
@@ -56,12 +56,12 @@ events.on<ICardList>('cards:changed', () => {
 		const card = new Card('card', cloneTemplate(cardCatalogTemplate), {
 			onClick: () => events.emit('card:select', item),
 		});
-		return card.render({
-			title: item.title,
-			image: item.image,
-			category: item.category,
-			price: item.price + ' ' + 'синапсов',
-		});
+		card.title = item.title;
+		card.image = item.image;
+		card.category = item.category;
+		card.price = item.price + ' ' + 'синапсов';
+		card.setCategory();
+		return card.render();
 	});
 });
 
@@ -74,6 +74,7 @@ events.on('preview:changed', (element: ICard) => {
 		const card = new Card('card', cloneTemplate(cardPreviewTemplate), {
 			onClick: () => events.emit('add:card', item),
 		});
+
 		modal.render({
 			content: card.render({
 				title: item.title,
@@ -81,19 +82,20 @@ events.on('preview:changed', (element: ICard) => {
 				category: item.category,
 				description: item.description,
 				price: item.price + ' ' + 'синапсов',
+				id: item.id,
 			}),
 		});
+
+		card.setCategory();
+		if (item.price === null) {
+			card.setDisabled(card.button, true);
+		}
+		if (basketState.product.includes(item.id)) {
+			card.setDisabled(card.button, true);
+		}
 	};
 	if (element) {
-		api
-			.getCardsApi()
-			.then((result) => {
-				cardState.catalog = result;
-				showItem(element);
-			})
-			.catch((err) => {
-				console.error(err);
-			});
+		showItem(element);
 	} else {
 		modal.close();
 	}
@@ -138,15 +140,16 @@ events.on('basket:open', () => {
 events.on('order:open', () => {
 	modal.render({
 		content: order.render({
-			button: '',
+			payment: '',
 			address: '',
 			valid: false,
 			errors: [],
 		}),
 	});
 });
+
 events.on('order.button:change', () => {
-	formState.button = order.paymentSelected;
+	formState.order.payment = order.selectedPayment;
 	formState.validateFormOrder();
 	if (formState.button && formState.order.address) {
 		events.emit('order:ready', formState.order);
@@ -167,7 +170,7 @@ events.on(
 	}
 );
 events.on('formErrors:change', (errors: Partial<TForm>) => {
-	const { email, phone, address, button } = errors;
+	const { email, phone, address, payment: button } = errors;
 	contacts.valid = !email && !phone;
 	contacts.errors = Object.values({ phone, email })
 		.filter((i) => !!i)
@@ -188,15 +191,28 @@ events.on('order:submit', () => {
 	});
 	order.resetPaymentSelection();
 });
+
+
 events.on('contacts:submit', () => {
-	modal.render({
-		content: success.render({
-			total: `Списано ${basket.total} синапсов`,
-		}),
-	});
+	api
+		.orderCards(formState.order, basketState.getOrderList())
+		.then(() => {
+			modal.render({
+				content: success.render({
+					total: `Списано ${basket.total} синапсов`,
+				}),
+			});
+		})
+		.catch((err) => {
+			console.error(err);
+		});
 });
-events.on('order-success', () => {
+
+
+events.on('order:success', () => {
 	modal.close();
+});
+events.on('modal-success:close', () => {
 	basketState.clearBasket();
 });
 

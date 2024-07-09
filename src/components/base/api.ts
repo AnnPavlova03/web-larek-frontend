@@ -1,4 +1,4 @@
-import { ICard } from "../../types";
+import { ICard, IOrderProduct, TForm,  TTotal } from "../../types";
 
 
 export type ApiListResponse<Type> = {
@@ -61,5 +61,13 @@ export class AppApi extends Api {
 			}))
 		);
 	}
+    orderCards(order: TForm, product:TTotal): Promise<IOrderProduct> {
+        const orderData={
+            ...order, ...product
+        }
+        return this.post('/order', orderData).then(
+            (data: IOrderProduct) => data
+        );
+        
  
-}
+}}

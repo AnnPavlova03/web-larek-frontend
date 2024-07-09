@@ -82,11 +82,5 @@
 	}
 	&__price {
 	}
-	&__basket-messages::before {
-		content: 'Товар уже добавлен в корзину';
-    position: absolute;
-    color: red;
-		left: 49%;
-		bottom: 0;
-	}
+
 }

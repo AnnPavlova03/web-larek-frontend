@@ -6,7 +6,7 @@ export class FormState extends Model<IFormState> {
 		email: '',
 		phone: '',
 		address: '',
-		button: '',
+		payment: '',
 	};
 	button: boolean = false;
 	formErrors: TFormErrors = {};
@@ -22,8 +22,8 @@ export class FormState extends Model<IFormState> {
 	validateFormOrder() {
 		const errors: typeof this.formErrors = {};
 
-		if (!this.button) {
-			errors.button = 'необходимо указать способ оплаты';
+		if (!this.order.payment) {
+			errors.payment = 'необходимо указать способ оплаты';
 		}
 		if (!this.order.address) {
 			errors.address = 'необходимо указать адресс проживания';

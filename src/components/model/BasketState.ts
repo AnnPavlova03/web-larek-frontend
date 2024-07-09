@@ -1,11 +1,19 @@
-import { IBasket, TProduct } from '../../types';
+import { IBasket, TTotal, TProduct } from '../../types';
 import { Model } from '../common/Model';
 
 
 export class BasketState extends Model<IBasket> {
 	count: number;
 	listProduct: TProduct[] = [];
+	total:number ;
 	product: string[] = [];
+
+	getOrderList(): TTotal {
+        return {
+            total: this.getTotal(), 
+            items: this.product,
+        };
+    }
 
 	addProduct(card: TProduct) {
 		const isProductInBasket = this.listProduct.some(
@@ -15,9 +23,7 @@ export class BasketState extends Model<IBasket> {
 			this.listProduct.push(card);
 			this.toggleOrderedCard(card.id);
 			this.emitChanges('basket:change', { listProduct: this.listProduct });
-		} else {
-            document.getElementById('card__basket-messages').classList.add('card__basket-messages');
-        }
+		}
     }
 		
 	
@@ -34,13 +40,14 @@ export class BasketState extends Model<IBasket> {
 		}
 	}
 	getTotal():number {
-		return this.product.reduce((a, c) => {
+		this.total =this.product.reduce((a, c) => {
 			const item = this.listProduct.find((it) => it.id === c);
 			if (!item || item.price === null) {
 				return a;
 			}
 			return a + Number(item.price);
 		}, 0);
+		return this.total
 	}
 
 	setIndex() {
@@ -52,6 +59,7 @@ export class BasketState extends Model<IBasket> {
 
 	clearBasket() {
 		this.listProduct = [];
+		this.product=[]
 		this.setIndex();
 		this.emitChanges('basket:change', { listProduct: this.listProduct });
 	}

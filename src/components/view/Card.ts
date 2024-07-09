@@ -1,7 +1,7 @@
-import { ICard, ICardList } from '../../types';
+import { ICard, ICardList, TProduct } from '../../types';
 import { ensureElement } from '../../utils/utils';
 import { Component } from '../base/Component';
-import { IEvents } from '../base/events';
+
 
 interface ICardActions {
 	onClick: (event: MouseEvent) => void;
@@ -38,7 +38,7 @@ export class Card extends Component<ICard> {
 			container
 		);
 		this._button = container.querySelector(
-			'.button'
+			'.card__button'
 		) as HTMLButtonElement | null;
 
 		if (events?.onClick) {
@@ -49,6 +49,14 @@ export class Card extends Component<ICard> {
 			}
 		}
 	}
+
+    set button(element: HTMLButtonElement ) {
+        this._button = element;
+    }
+
+    get button(): HTMLButtonElement {
+        return this._button;
+    }
 
 	set title(value: string) {
 		this.setText(this._title, value);
@@ -69,4 +77,26 @@ export class Card extends Component<ICard> {
 	set image(value: string) {
 		this.setImage(this._image, value, this.title);
 	}
+	 
+	setCategory() {
+		switch (true) {
+			case this._category.textContent === 'софт-скил':
+				this._category.classList.add('card__category_soft');
+				break;
+			case this._category.textContent === 'другое':
+				this._category.classList.add('card__category_other');
+				break;
+			case this._category.textContent === 'хард-скил':
+				this._category.classList.add('card__category_hard');
+				break;
+			case this._category.textContent === 'дополнительное':
+				this._category.classList.add('card__category_additional');
+				break;
+			case this._category.textContent === 'кнопка':
+				this._category.classList.add('card__category_button');
+				break;
+
+		}
+	}
+
 }

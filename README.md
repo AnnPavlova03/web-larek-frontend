@@ -70,6 +70,7 @@ export interface IBasket {
 	listProduct: TProduct[]
 	product: string[] 
 	addProduct(items: TProduct): TProduct;
+	getOrderList(): ITotal 
 	toggleOrderedCard(id: string): TProduct; // не дает добавить одинаковые товары
 	getTotal(): number; // получаем сумму заказа
 	deleteProduct(Id: string): void; // очищаем товары в корхине
@@ -90,6 +91,21 @@ export interface IContacts {
 	phone: string;
 	email: string;
 }
+```
+Общиц интерфейс данных отправляемых на сервер
+```
+export interface IOrderProduct {
+	phone: string;
+	email: string;
+	address: string;
+	payment: string;
+	total: number;
+	items: string[];
+}
+```
+Тип данных товаров отправляемых на сервер 
+```
+export type TTotal = Pick<IOrderProduct , 'total' | 'items' >;
 ```
 Данные товара при добавление его в корзину
 ```
@@ -162,6 +178,7 @@ export interface IFormState {
 	product: string[] - свойства карточки
 
 Методы для работы с данными.
+- getOrderList():TTotal - возвращает обновленные данные по стоимости товаров и сам массив товаров
 - addProduct(items: TProduct): TProduct; - добавляет карточку
 - toggleOrderedCard(id:string):TProduct - проверяет в корзине наличие товара с заданным айди 
 - getTotal(): number -  получаем сумму заказа

@@ -7,6 +7,7 @@ interface IBasketView {
 	items: HTMLElement[];
 	total: number | string;
 	selected: string[];
+
 }
 export class Basket extends Component<IBasketView> {
 	protected _list: HTMLElement;
@@ -50,4 +51,6 @@ export class Basket extends Component<IBasketView> {
 	get total(): number | string {
 		return this._total.textContent;
 	}
+
+
 }
