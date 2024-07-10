@@ -12,10 +12,7 @@ export class Modal extends Component<IModalData> {
 		super(container);
 		this._content = container.querySelector('.modal__content');
 		this._closeButton = container.querySelector('.modal__close');
-		this._closeButton.addEventListener('click', (event) => {
-			event.stopPropagation();
-			this.close();
-		});
+		this._closeButton.addEventListener('click', this.close.bind(this));
 		this.container.addEventListener('click', this.close.bind(this));
 		this._content.addEventListener('click', (event) => event.stopPropagation());
 	}
@@ -24,13 +21,8 @@ export class Modal extends Component<IModalData> {
 		this._content.replaceChildren(value);
 	}
 	close() {
-		if (this.container.querySelector('.order-success__close')) {
-			this.container.classList.remove('modal_active');
-			this.events.emit('modal-success:close');
-		} else {
 			this.container.classList.remove('modal_active');
 			this.events.emit('modal:close');
-		}
 	}
 
 	open() {

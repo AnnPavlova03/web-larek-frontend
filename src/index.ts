@@ -192,7 +192,6 @@ events.on('order:submit', () => {
 	order.resetPaymentSelection();
 });
 
-
 events.on('contacts:submit', () => {
 	api
 		.orderCards(formState.order, basketState.getOrderList())
@@ -202,18 +201,15 @@ events.on('contacts:submit', () => {
 					total: `Списано ${basket.total} синапсов`,
 				}),
 			});
+			basketState.clearBasket();
 		})
 		.catch((err) => {
 			console.error(err);
 		});
 });
 
-
 events.on('order:success', () => {
 	modal.close();
-});
-events.on('modal-success:close', () => {
-	basketState.clearBasket();
 });
 
 events.on('modal:open', () => {
