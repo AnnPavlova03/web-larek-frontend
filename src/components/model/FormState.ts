@@ -48,13 +48,13 @@ export class FormState extends Model<IFormState> {
 			errors.email = 'Email должен содержать символ @ и домен, например example@domain.com';
 		  }
 		  if (!this.isValidPhone(this.order.phone) ) {
-			errors.phone = 'Формат телефона: +7 (ХХХ) ХХХ-ХХ-ХХ';
+			errors.phone = 'Введите номер телефона в формате +7XXXXXXXXXX или 8XXXXXXXXXX';
 		  }
 		this.formErrors = errors;
 		this.events.emit('formErrors:change', this.formErrors);
 		return Object.keys(errors).length === 0;
 	}
-	resetForm() { // если окно с формой закрыли, ранее введенные данные сбрасываются, чтобы кнопка "далее" оставалась в didabled, пока снова не заполнят оба поля
+	resetForm() { 
 		this.order = {
 			email: '',
 			phone: '',
