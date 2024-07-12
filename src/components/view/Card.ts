@@ -41,6 +41,7 @@ export class Card extends Component<ICard> {
 			'.card__button'
 		) as HTMLButtonElement | null;
 
+
 		if (events?.onClick) {
 			if (this._button) {
 				this._button.addEventListener('click', events.onClick);
@@ -77,7 +78,7 @@ export class Card extends Component<ICard> {
 	set image(value: string) {
 		this.setImage(this._image, value, this.title);
 	}
-	 
+	
 	setCategory() {
 		switch (true) {
 			case this._category.textContent === 'софт-скил':

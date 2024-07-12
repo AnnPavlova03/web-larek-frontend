@@ -1,5 +1,5 @@
-import { Component } from "../base/Component";
-import { IEvents } from "../base/events";
+import { Component } from '../base/Component';
+import { IEvents } from '../base/events';
 
 interface IForm {
 	errors: string[];
@@ -20,6 +20,7 @@ export class Form<T> extends Component<IForm> {
 			const value = target.value;
 			this.onInputChange(field, value);
 		});
+
 		this.container.addEventListener('submit', (evt) => {
 			evt.preventDefault();
 			this.events.emit(`${this.container.name}:submit`);
@@ -38,7 +39,9 @@ export class Form<T> extends Component<IForm> {
 	}
 	set errors(value: string) {
 		this.setText(this._errors, value);
+
 	}
+	
 
 	render(state: Partial<T> & IForm) {
 		const { valid, errors, ...inputs } = state;
@@ -46,4 +49,5 @@ export class Form<T> extends Component<IForm> {
 		Object.assign(this, inputs);
 		return this.container;
 	}
+
 }

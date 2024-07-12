@@ -2,9 +2,9 @@ import { ICard, ICardList } from '../../types';
 import { Model } from '../common/Model';
 
 export class CardState extends Model<ICardList> {
-	catalog: ICard[] 
+	catalog: ICard[];
 	preview: string | null;
-	button: boolean
+	button: boolean;
 
 	setCatalog(items: ICard[]) {
 		this.catalog = items.map((item) => item, this.events);
@@ -14,6 +14,4 @@ export class CardState extends Model<ICardList> {
 		this.preview = item.id;
 		this.emitChanges('preview:changed', item);
 	}
-
-
 }

@@ -21,8 +21,13 @@ export class Modal extends Component<IModalData> {
 		this._content.replaceChildren(value);
 	}
 	close() {
+		if (this.container.querySelector('.form')) {
+			this.container.classList.remove('modal_active');
+			this.events.emit('modal-form:close');
+		} else {
 			this.container.classList.remove('modal_active');
 			this.events.emit('modal:close');
+		}
 	}
 
 	open() {

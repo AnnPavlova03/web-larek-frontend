@@ -15,4 +15,6 @@ export class Contacts extends Form<IContacts> {
 		(this.container.elements.namedItem('email') as HTMLInputElement).value =
 			value;
 	}
+
+
 }
