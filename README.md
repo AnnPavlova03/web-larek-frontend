@@ -1,13 +1,31 @@
-# Проектная работа "Веб-ларек"
+# Веб-ларёк
 
-Стек: HTML, SCSS, TS, Webpack
+## Описание проекта
+Интернет-магазин "Веб-ларёк"— это веб-сайт, предоставляющее пользователям возможность просматривать и заказывать товары. 
 
-Структура проекта:
+## В проекте реализовано:
+- Процесс заказа товара: Пользователи могут добавлять товары в корзину, удалять их, оформлять заказы и выбирать способы оплаты и доставки.
+- Архитектура: Проект построен на принципах объектно-ориентированного программирования с использованием паттерна MVP, что обеспечивает четкое разделение логики приложения и пользовательского интерфейса.
+
+## Используемый стек
+<div align="left">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" height="40" alt="javascript logo"  />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" height="40" alt="html5 logo"  />
+  <img width="12" />
+  <img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/scss-3-236294.png?f=webp&w=256" height="40" alt="sсss logo"  />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" height="40" alt="typescript logo"  />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/webpack/webpack-original.svg" height="40" alt="webpack logo"  />
+</div>
+
+## Структура проекта:
 - src/ — исходные файлы проекта
 - src/components/ — папка с JS компонентами
 - src/components/base/ — папка с базовым кодом
 
-Важные файлы:
+## Важные файлы:
 - src/pages/index.html — HTML-файл главной страницы
 - src/types/index.ts — файл с типами
 - src/index.ts — точка входа приложения
