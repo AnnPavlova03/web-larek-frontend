@@ -89,9 +89,9 @@ export interface IBasket {
 	product: string[] 
 	addProduct(items: TProduct): TProduct;
 	getOrderList(): ITotal 
-	toggleOrderedCard(id: string): TProduct; // не дает добавить одинаковые товары
-	getTotal(): number; // получаем сумму заказа
-	deleteProduct(Id: string): void; // очищаем товары в корхине
+	toggleOrderedCard(id: string): TProduct;
+	getTotal(): number; 
+	deleteProduct(Id: string): void; 
 	setIndex():void;
 	clearBasket():void 
 }
